@@ -1,0 +1,24 @@
+From d974fb0a82d513a5570406fd188e25da1142c720 Mon Sep 17 00:00:00 2001
+From: Quentin Liu <Quentin.Liu.0415@gmail.com>
+Date: Sat, 19 Aug 2017 11:29:12 +0800
+Subject: [PATCH V2 0/2] mesa: Modify drirc options
+
+This serie of patches changes drirc's semanticaclly boolean options, options that are enum type options but which in essence are boolean options e.g. pp_shalde, into actual boolean optioinns.
+
+Backwawrd compatbility is maintained by relaxinig xmlconfig parser so that xml files before this change can still be parsed correctly.
+Driconf, unfortunately, will be affected by this. The issue will be addressedd later by releasing a new version of Driconf.
+
+Also note that these changes are made to fulfil requirementss to participate in EVoC (Endless Vacaction of Code) hosted by X.org.
+
+Quentin Liu (2):
+  mesa: Fix backward compatibility for XML parser
+  mesa: Modify drirc option types
+
+ src/gallium/auxiliary/pipe-loader/driinfo_gallium.h |  8 ++++----
+ src/util/xmlconfig.c                                | 17 +++++++++++++++--
+ src/util/xmlpool/t_options.h                        |  8 ++++----
+ 3 files changed, 23 insertions(+), 10 deletions(-)
+
+-- 
+2.7.4
+

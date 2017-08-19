@@ -1,0 +1,44 @@
+From 6d766808cf8c730bb09217b87e11dc99cfeb3f5c Mon Sep 17 00:00:00 2001
+From: Quentin Liu <Quentin.Liu.0415@gmail.com>
+Date: Fri, 18 Aug 2017 11:25:44 +0800
+Subject: [PATCH V2 1/2] mesa: Fix backward compatibility for XML parser
+
+If the type of drirc options are changed, the parser will not be able to
+ recognize xml files that had been present before the change. To achieve
+backward compatibility, the parser is relaxed to recognize boolean type
+options with enum values.
+---
+ src/util/xmlconfig.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/src/util/xmlconfig.c b/src/util/xmlconfig.c
+index d3f47ec..d81a07b 100644
+--- a/src/util/xmlconfig.c
++++ b/src/util/xmlconfig.c
+@@ -317,8 +317,21 @@ parseValue(driOptionValue *v, driOptionType type, const XML_Char *string)
+             v->_bool = true;
+             tail = string + 4;
+         }
+-        else
+-            return false;
++        else {
++            /* Some drirc options, such as pp_celshalde, were formerly enum
++             * values. Now that they have been turned into boolean values, 
++             * to achieve backward compatibility relax the check here a
++             * little bit */
++            int value = strToI(string, &tail, 0);
++            if (value == 1) 
++                v->_bool = true;
++            else if (value == 0) 
++                v->_bool = false;
++            else 
++                return false; /* wrong value here */
++            }
++	}
++            
+         break;
+       case DRI_ENUM: /* enum is just a special integer */
+       case DRI_INT:
+-- 
+2.7.4
+

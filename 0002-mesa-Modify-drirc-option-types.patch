@@ -1,0 +1,65 @@
+From d974fb0a82d513a5570406fd188e25da1142c720 Mon Sep 17 00:00:00 2001
+From: Quentin Liu <Quentin.Liu.0415@gmail.com>
+Date: Fri, 18 Aug 2017 11:22:48 +0800
+Subject: [PATCH V2 2/2] mesa: Modify drirc option types
+
+The type and default values of certain drirc options are changed, namely,
+those semantically boolean options such as pp_celshade.
+---
+ src/gallium/auxiliary/pipe-loader/driinfo_gallium.h | 8 ++++----
+ src/util/xmlpool/t_options.h                        | 8 ++++----
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/src/gallium/auxiliary/pipe-loader/driinfo_gallium.h b/src/gallium/auxiliary/pipe-loader/driinfo_gallium.h
+index 48a57c9..2327446 100644
+--- a/src/gallium/auxiliary/pipe-loader/driinfo_gallium.h
++++ b/src/gallium/auxiliary/pipe-loader/driinfo_gallium.h
+@@ -8,10 +8,10 @@ DRI_CONF_SECTION_END
+ 
+ DRI_CONF_SECTION_QUALITY
+    DRI_CONF_FORCE_S3TC_ENABLE("false")
+-   DRI_CONF_PP_CELSHADE(0)
+-   DRI_CONF_PP_NORED(0)
+-   DRI_CONF_PP_NOGREEN(0)
+-   DRI_CONF_PP_NOBLUE(0)
++   DRI_CONF_PP_CELSHADE("false")
++   DRI_CONF_PP_NORED("false")
++   DRI_CONF_PP_NOGREEN("false")
++   DRI_CONF_PP_NOBLUE("false")
+    DRI_CONF_PP_JIMENEZMLAA(0, 0, 32)
+    DRI_CONF_PP_JIMENEZMLAA_COLOR(0, 0, 32)
+ DRI_CONF_SECTION_END
+diff --git a/src/util/xmlpool/t_options.h b/src/util/xmlpool/t_options.h
+index d3f31fc..4ea3615 100644
+--- a/src/util/xmlpool/t_options.h
++++ b/src/util/xmlpool/t_options.h
+@@ -220,22 +220,22 @@ DRI_CONF_OPT_BEGIN_B(float_depth, def) \
+ DRI_CONF_OPT_END
+ 
+ #define DRI_CONF_PP_CELSHADE(def) \
+-DRI_CONF_OPT_BEGIN_V(pp_celshade,enum,def,"0:1") \
++DRI_CONF_OPT_BEGIN_B(pp_celshade,def) \
+         DRI_CONF_DESC(en,gettext("A post-processing filter to cel-shade the output")) \
+ DRI_CONF_OPT_END
+ 
+ #define DRI_CONF_PP_NORED(def) \
+-DRI_CONF_OPT_BEGIN_V(pp_nored,enum,def,"0:1") \
++DRI_CONF_OPT_BEGIN_B(pp_nored,def) \
+         DRI_CONF_DESC(en,gettext("A post-processing filter to remove the red channel")) \
+ DRI_CONF_OPT_END
+ 
+ #define DRI_CONF_PP_NOGREEN(def) \
+-DRI_CONF_OPT_BEGIN_V(pp_nogreen,enum,def,"0:1") \
++DRI_CONF_OPT_BEGIN_B(pp_nogreen,def) \
+         DRI_CONF_DESC(en,gettext("A post-processing filter to remove the green channel")) \
+ DRI_CONF_OPT_END
+ 
+ #define DRI_CONF_PP_NOBLUE(def) \
+-DRI_CONF_OPT_BEGIN_V(pp_noblue,enum,def,"0:1") \
++DRI_CONF_OPT_BEGIN_B(pp_noblue,def) \
+         DRI_CONF_DESC(en,gettext("A post-processing filter to remove the blue channel")) \
+ DRI_CONF_OPT_END
+ 
+-- 
+2.7.4
+
